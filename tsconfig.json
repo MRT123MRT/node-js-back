@@ -13,6 +13,6 @@
   "include": [
     "./*.js",
     "src/**/*.ts",
-    "test/**/*.ts", "knexfile.ts",
+    "test/**/*.ts", "src/api/db/knexfile.ts", "src/index", "server/index.ts", "server/index.ts"
   ],
 }

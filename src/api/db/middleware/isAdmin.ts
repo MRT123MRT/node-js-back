@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import database from '../../../knex';
+import database from '../knex';
 
 
 export default async function isAdmin(req: Request, res: Response, next: NextFunction) {
 
      const user = req.body.user;
 
-    
-     if (user.Username.startsWith('admin'))
+        console.log( user );
+     if (user.username.startsWith('admin')===false)
+
         return res.status(401).json({
          data: 'token invalid',
          status: 'Unauthorized',

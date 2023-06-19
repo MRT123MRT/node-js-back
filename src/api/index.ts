@@ -1,6 +1,6 @@
 import express from 'express';  
-import { router as u } from './routes/user';
-import { router as r } from './routes/array';
+import { router as u } from './http/routes/user';
+import { router as r } from './http/routes/array';
 export const router = express.Router();
 
   

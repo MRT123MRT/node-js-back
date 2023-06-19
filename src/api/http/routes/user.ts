@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
-import isAdmin from '../middleware/isAdmin';
-import isUser from '../middleware/isUser';
-import * as userController from '../controllers/userController';
+import isAdmin from '../../db/middleware/isAdmin';
+import isUser from '../../db/middleware/isUser';
+import * as userController from '../../db/userController';
 export const router: Router = express.Router();
 
 

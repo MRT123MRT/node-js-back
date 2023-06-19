@@ -23,6 +23,6 @@ app.use(bodyParser.json());
 app.use('/', api);
 
 app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+//app.use(middlewares.errorHandler);
 
 export default app;

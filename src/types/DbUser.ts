@@ -1,7 +1,9 @@
-export default function DbUser(username: string, password: string) {
-    return {
-      username,
-      password,
+
+
+export type DbUser =
+    {
+      username:string,
+      password:string,
     };
-  }
+  
   

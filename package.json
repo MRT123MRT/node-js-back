@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "start": "ts-node server/index.ts",
+    "dev": "nodemon server/index.ts",
     "build": "tsc"
   },
   "license": "MIT",
