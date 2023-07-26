@@ -12,13 +12,13 @@ router.get('/', arrayController.getArray);
 // GET /array/:index
 router.get('/:index', arrayController.getArrayIndex);
 
-// POST /array
+// POST /array         
 router.post('/', isAdmin, arrayController.postArray);
 
 // PUT /array/:index
 router.put('/:index', isAdmin, arrayController.putArrayIndex);
 
-// DELETE /array
+// DELETE /array       
 router.delete('/', isAdmin, arrayController.deleteArray);
 
 // DELETE /array/:index

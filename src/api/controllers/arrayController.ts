@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { handleSyntaxError,
+import {
+    handleSyntaxError,
     handleUserNotFoundError,
     handleUserNotExistinError,
     handleUnauthorizedError,
-    handleForbiddenNotAdminError, 
+    handleForbiddenNotAdminError,
     handleDBInsertError,
     handleDBPasswordError,
     handleDBPromoteError,
     handleDBGetError,
     handlePasswordIncorrectEror,
     handleNotFoundError,
-    handleDBAdminCheckError } from '../errorHandler';
+    handleDBAdminCheckError
+} from '../errorHandler';
 let array: any[] = [1, 2, 3, 4, 5];
 
 export const getArray = (req: Request, res: Response): Response => {
@@ -23,7 +25,7 @@ export const getArrayIndex = (req: Request, res: Response): Response => {
         handleNotFoundError("---------------\ncant find num in array\n--------------", res)
     }
 
-    return res.status(200).json({  value: array[req.params.index]});
+    return res.status(200).json({ value: array[req.params.index] });
 };
 
 export const postArray = (req: Request, res: Response): Response => {
@@ -36,10 +38,10 @@ export const putArrayIndex = (req: Request, res: Response) => {
         const index: number = Number(req.params.index);
         array[index] = req.body.array;
         return res.sendStatus(200);
-    } catch(err) {
-           return handleDBInsertError("---------------\nerror in putArrayIndex\n--------------", res);
+    } catch (err) {
+        return handleDBInsertError("---------------\nerror in putArrayIndex\n--------------", res);
     }
-}; 
+};
 
 export const deleteArrayIndex = (req: Request, res: Response) => {
     try {
@@ -47,7 +49,7 @@ export const deleteArrayIndex = (req: Request, res: Response) => {
         array.splice(index, 1);
         return res.sendStatus(200);
     } catch {
-        return handleSyntaxError( 'Error deleting data', res);
+        return handleSyntaxError('Error deleting data', res);
     }
 };
 

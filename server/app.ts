@@ -7,7 +7,6 @@ import api from '../src/api';
 import bodyParser from 'body-parser';
 
 
-require('dotenv').config();
 console.log(process.env.DATABASE);
 console.log(process.env.USER);
 console.log(process.env.Password);
@@ -23,5 +22,6 @@ app.use(bodyParser.json());
 app.use('/', api);
 
 app.use(errorHandler.notFound);
+
 
 export default app;
