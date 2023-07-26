@@ -8,11 +8,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "./*.js",
     "src/**/*.ts",
     "test/**/*.ts", "src/api/db/knexfile.ts", "src/index", "server/index.ts", "server/index.ts"
-  ],
+, "server/app.ts"  ],
 }

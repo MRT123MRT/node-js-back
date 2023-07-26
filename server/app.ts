@@ -2,8 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
-import * as middlewares from './middlewares';
-import api from './api';
+import * as errorHandler from '../src/api/errorHandler';
+import api from '../src/api';
 import bodyParser from 'body-parser';
 
 
@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 
 app.use('/', api);
 
-app.use(middlewares.notFound);
-//app.use(middlewares.errorHandler);
+app.use(errorHandler.notFound);
 
 export default app;

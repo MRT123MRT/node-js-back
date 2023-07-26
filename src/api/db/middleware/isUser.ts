@@ -1,25 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import database from '../knex';
+import { handleSyntaxError,
+    handleUserNotFoundError,
+    handleUserNotExistinError,
+    handleUnauthorizedError,
+    handleForbiddenNotAdminError, 
+    handleDBInsertError,
+    handleDBPasswordError,
+    handleDBPromoteError,
+    handleDBGetError,
+    handlePasswordIncorrectEror,
+    handleNotFoundError,
+    handleTokenInvalidError,
+    handleDBAdminCheckError } from '../../errorHandler';
 
 export default async function isUser(req: Request, res: Response, next: NextFunction) {
 
     if (!req.headers.authorization)
-        return res.sendStatus(401);
+        return handleSyntaxError("no header authorization ", res)
 
 
     const token = req.headers.authorization.split(' ')[1];
 
     if (token === null)
-        return res.sendStatus(401);
-
+        return handleTokenInvalidError("no token ", res);
     try {
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!payload)
-            return res.sendStatus(401);
-
+            return handleTokenInvalidError("no token ", res);
 
         req.body.user = await database.from('users').where('id', payload.id).first();
 
@@ -27,7 +38,7 @@ export default async function isUser(req: Request, res: Response, next: NextFunc
     }
     catch (err) {
         console.log(err);
-        return res.sendStatus(401);
+        return handleDBGetError("error in db ", res);
     }
 
     next();

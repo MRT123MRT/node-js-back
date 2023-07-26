@@ -14,7 +14,7 @@ import { handleSyntaxError,
          handleDBPromoteError,
          handleDBGetError,
          handlePasswordIncorrectEror,
-         handleDBAdminCheckError } from '../../errorHandler';
+         handleDBAdminCheckError } from '../errorHandler';
 
 export const get_ = (req: Request, res: Response): Response => {
   return res.status(200).json({
@@ -105,6 +105,8 @@ export const post_login = async (req: Request, res: Response, next: NextFunction
 }
 
 export const promote = async (req: Request, res: Response) => {
+
+  console.log("abcccccccccccccccccccccccccccccccccc")
   if ((req.body.user.username as string).startsWith('admin') == false)
     return handleForbiddenNotAdminError("not admin ", res)
 

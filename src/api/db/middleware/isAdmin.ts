@@ -1,19 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import database from '../knex';
-
+import { handleSyntaxError,
+    handleUserNotFoundError,
+    handleUserNotExistinError,
+    handleUnauthorizedError,
+    handleForbiddenNotAdminError, 
+    handleDBInsertError,
+    handleDBPasswordError,
+    handleDBPromoteError,
+    handleDBGetError,
+    handlePasswordIncorrectEror,
+    handleNotFoundError,
+    handleDBAdminCheckError } from '../../errorHandler';
 
 export default async function isAdmin(req: Request, res: Response, next: NextFunction) {
-
+        console.log("fdfdfdffffffffffffffffffffffffffff/nffdfffffffffffff/nfdfdfdffff")
      const user = req.body.user;
 
         console.log( user );
      if (user.username.startsWith('admin')===false)
-
-        return res.status(401).json({
-         data: 'token invalid',
-         status: 'Unauthorized',
-     });
+        return handleForbiddenNotAdminError("not admin", res);
 
 
     if (!req.headers.authorization)
@@ -45,11 +52,7 @@ export default async function isAdmin(req: Request, res: Response, next: NextFun
         //console.log(req.body.user);
     }
     catch (err) {
-        console.log(err);
-        return res.status(401).json({
-            data: 'token invalid',
-            status: 'Unauthorized',
-        });
+         handleDBAdminCheckError("Error checking if user is admin in DB", res)
     }
 
     next();
