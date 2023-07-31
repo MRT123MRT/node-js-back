@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import database from '../knex';
-import { handleSyntaxError,
+import {
+    handleSyntaxError,
     handleUserNotFoundError,
     handleUserNotExistinError,
     handleUnauthorizedError,
-    handleForbiddenNotAdminError, 
+    handleForbiddenNotAdminError,
     handleDBInsertError,
     handleDBPasswordError,
     handleDBPromoteError,
@@ -13,7 +14,8 @@ import { handleSyntaxError,
     handlePasswordIncorrectEror,
     handleNotFoundError,
     handleTokenInvalidError,
-    handleDBAdminCheckError } from '../../errorHandler';
+    handleDBAdminCheckError
+} from '../../errorHandler';
 
 export default async function isUser(req: Request, res: Response, next: NextFunction) {
 
@@ -32,7 +34,7 @@ export default async function isUser(req: Request, res: Response, next: NextFunc
         if (!payload)
             return handleTokenInvalidError("no token ", res);
 
-        req.body.user = await database.from('users').where('id', payload.id).first();
+        req.body.user = await database.from('users').where('userid', payload.id).first();
 
         //console.log(req.body.user);
     }

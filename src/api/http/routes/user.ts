@@ -11,6 +11,12 @@ router.post('/register', userController.post_register);
 // post /loginS
 router.post('/login', userController.post_login);
 
+router.post('/todos', userController.post_todos);
+
+router.post('/addTodo', isUser, userController.addTodo);
+
+router.get('/fetchTodos', isUser, userController.fetchTodos);
+
 // get /
 router.get('/', isUser, userController.get_);
 
