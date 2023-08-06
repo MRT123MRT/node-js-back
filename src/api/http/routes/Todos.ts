@@ -12,6 +12,6 @@ router.post('/addTodo', isUser, TodoController.addTodo);
 
 router.get('/fetchTodos', isUser, TodoController.fetchTodos);
 
-router.delete('/:task', isUser, TodoController.deleteTodo); //  USE BETTER ROUTES
+router.delete('/deleteTodo/:todoid', isUser, TodoController.deleteTodo); //  USE BETTER ROUTES :/task id
 
 router.put('/updateTodo', isUser, TodoController.updateTodo);
