@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import isAdmin from '../../db/middleware/isAdmin';
 import isUser from '../../db/middleware/isUser';
-import * as userController from '../../db/userController';
+import * as userController from '../../controllers/userController';
 export const router: Router = express.Router();
 
+//router.prefix = '/user';
 
 // POST /register
 router.post('/register', userController.post_register);
@@ -17,14 +17,10 @@ router.post('/addTodo', isUser, userController.addTodo);
 
 router.get('/fetchTodos', isUser, userController.fetchTodos);
 
+router.delete('/:task', isUser, userController.deleteTodo); //  USE BETTER ROUTES
+
+router.put('/updateTodo', isUser, userController.updateTodo);
+
 // get /
-router.get('/', isUser, userController.get_);
 
-// get /getUser
-router.get('/getUser', isUser, userController.get_getUser);
 
-// get /getecho
-router.get('/echo', isUser, userController.getEcho);
-
-// get /promote
-router.get('/promote', isAdmin, isUser, userController.promote);

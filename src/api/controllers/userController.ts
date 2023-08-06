@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import database from './knex';
+import database from '../db/knex';
 import { DbUser } from '../../types/DbUser';
 import DBTodo from '../../types/DBTodo';
 import { v4 } from 'uuid';
@@ -21,22 +21,6 @@ import {
 } from '../errorHandler';
 import { uuid } from 'uuidv4';
 import { V4MAPPED } from 'dns';
-
-export const get_ = (req: Request, res: Response): Response => {
-  return res.status(200).json({
-    msg: `Hello ${req.body.user.username} today is ${new Date().toDateString()} `
-  });
-};
-
-export const get_getUser = (req: Request, res: Response): Response => {
-  return res.status(200).json(req.body.user);
-};
-
-export const getEcho = (req: Request, res: Response): Response => {
-  return res.status(200).json({
-    msg: `The message is ${req.query.msg}`
-  });
-};
 
 
 export const post_register = async (req: Request, res: Response) => {
@@ -65,7 +49,7 @@ export const post_register = async (req: Request, res: Response) => {
 
   try {
 
-    await database('users').insert({
+    await database('users').insert({ //NOT HERE
       username: user.username,
       password: user.password,
       email: user.email
@@ -156,8 +140,8 @@ export const addTodo = async (req: Request, res: Response) => {
     return handleSyntaxError("no todo ", res);
 
   try {
-    let dbtodo = {
-      todoid: v4(),
+    let dbtodo: DBTodo = {
+      todoid: v4(), //PUT THIS IN A FUNCTION
       todotitle: todo.todotitle,
       tododescription: todo.tododescription,
       todoisdone: todo.todoisdone,
@@ -167,7 +151,62 @@ export const addTodo = async (req: Request, res: Response) => {
 
     console.log(dbtodo, todo)
 
-    await database('todos').insert(dbtodo)
+    await database('todos').insert(dbtodo) //AGAIN 
+
+    return res.status(200).json(dbtodo);
+
+  }
+  catch (err) {
+    console.log(err)
+    return handleDBInsertError("cant insert to DB ", res)
+  }
+
+
+
+}
+export const deleteTodo = async (req: Request, res: Response) => {
+  const todoid = req.body?.todoid;
+  if (todoid == null)
+    return handleSyntaxError("no user id ", res);
+
+
+  try {
+
+    const todos = await database('todos').where('todoid', todoid).del();
+
+    return res.sendStatus(200)
+
+  }
+  catch (err) {
+    console.log(err)
+    return handleDBInsertError("cant insert to DB ", res)
+  }
+}
+
+
+export const updateTodo = async (req: Request, res: Response) => {
+  const userid = req.body?.user?.userid;
+  const todo: DBTodo = req.body?.todo;
+
+  if (userid == null)
+    return handleSyntaxError("no user id ", res);
+
+  if (todo == null)
+    return handleSyntaxError("no todo ", res);
+
+  try {
+    let dbtodo = {
+      todoid: todo.todoid,
+      todotitle: todo.todotitle,
+      tododescription: todo.tododescription,
+      todoisdone: todo.todoisdone,
+      duedate: todo.duedate,
+      userid: userid,
+    };
+
+    console.log(dbtodo, todo)
+
+    await database('todos').where('todoid', dbtodo.todoid).update(dbtodo);
 
     return res.status(200).json(dbtodo);
 
@@ -211,47 +250,4 @@ export const fetchTodos = async (req: Request, res: Response) => {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const promote = async (req: Request, res: Response) => {
-
-  console.log("abcccccccccccccccccccccccccccccccccc")
-  if ((req.body.user.username as string).startsWith('admin') == false)
-    return handleForbiddenNotAdminError("not admin ", res)
-
-
-  if (req.body.username === null)
-    return handleSyntaxError("not admin ", res)
-
-  try {
-    let user = await database('users').where('username', req.body.username).first();
-    user.username = 'admin_' + user.username;
-
-    await database('users').where('username', req.body.username).update(user)
-
-    res.status(200).json({ username: user.username });
-  }
-  catch
-  {
-    return handleDBPromoteError("cant update to admin ", res)
-  }
-};
-
-
 
