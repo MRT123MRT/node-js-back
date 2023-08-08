@@ -31,7 +31,7 @@ export const post_todos = async (req: Request, res: Response) => {
     return handleSyntaxError("no user id ", res);
 
   try {
-    const todos = getTodoDB(userid);
+    const todos =  await getTodoDB(userid); // AWAIT PROMISE
     return res.status(200).json(todos || []);
   }
 
@@ -53,7 +53,7 @@ export const addTodo = async (req: Request, res: Response) => {
 
   if (todo == null)
     return handleSyntaxError("no todo ", res);
-
+  
   try {
     let dbtodo: DBTodo = {
       todoid: v4(),
@@ -64,7 +64,10 @@ export const addTodo = async (req: Request, res: Response) => {
       userid: userid,
     };
 
-    console.log(dbtodo, todo)
+
+  // if (dbtodo.userid==userid)
+  //   return handleForbiddenNotAdminError("cant insert to DB ", res)
+  //   console.log(dbtodo, todo)
 
     await addTodoToDB(dbtodo)
 
@@ -87,7 +90,7 @@ export const deleteTodo = async (req: Request, res: Response) => {
 
   try {
 
-    deleteTodoDB(todoid);
+     await deleteTodoDB(todoid);
 
     return res.sendStatus(200)
 
@@ -100,6 +103,10 @@ export const deleteTodo = async (req: Request, res: Response) => {
 
 
 export const updateTodo = async (req: Request, res: Response) => {
+  const todoid: string = req.params.todoid;
+  if (todoid == null)
+    return handleSyntaxError("no user id ", res);
+
   const userid = req.body?.user?.userid;
   const todo: DBTodo = req.body?.todo;
 

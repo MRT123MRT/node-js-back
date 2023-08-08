@@ -4,14 +4,13 @@ import * as TodoController from '../../controllers/TodosController';
 
 export const router: Router = express.Router();
 
-router.use(isUser)
 // GET /array
-router.post('/todos', TodoController.post_todos);
+//router.post('/', TodoController.post_todos);
 
-router.post('/addTodo', isUser, TodoController.addTodo);
+router.post('/', TodoController.addTodo);
 
-router.get('/fetchTodos', isUser, TodoController.fetchTodos);
+router.get('/', TodoController.fetchTodos);
 
-router.delete('/deleteTodo/:todoid', isUser, TodoController.deleteTodo); //  USE BETTER ROUTES :/task id
+router.delete('/:todoid', TodoController.deleteTodo); //  USE BETTER ROUTES :/task id
 
-router.put('/updateTodo', isUser, TodoController.updateTodo);
+router.put('/:todoid', TodoController.updateTodo);
