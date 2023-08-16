@@ -3,7 +3,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import database from '../db/knex';
 import { DbUser } from '../../types/DbUser';
-import DBTodo from '../../types/DBTodo';
+import {DBTodo} from '../../types/DBTodo';
 import { v4 } from 'uuid';
 import { registerDB,loginDB } from '../db/dbQuery';
 import {

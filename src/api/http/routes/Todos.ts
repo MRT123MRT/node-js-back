@@ -4,8 +4,7 @@ import * as TodoController from '../../controllers/TodosController';
 
 export const router: Router = express.Router();
 
-// GET /array
-//router.post('/', TodoController.post_todos);
+// GET /todo
 
 router.post('/', TodoController.addTodo);
 
